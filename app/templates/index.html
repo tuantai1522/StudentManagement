@@ -1,0 +1,16 @@
+{% extends 'layout/master_layout.html' %}
+
+
+{% block body %}
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+        {% if person is defined and current_user.is_authenticated %}
+            <h1>Xin chào {{ person.ho + " " + person.ten }}</h1>
+        {% else %}
+            <h1>Chào mừng đến với trang quản trị học sinh</h1>
+        {% endif %}
+
+    </div>
+    <!-- /.container-fluid -->
+{% endblock %}
+

@@ -15,15 +15,21 @@ class ChucVu(db.Model):
     TaiKhoan = relationship('TaiKhoan', backref="ChucVu", lazy=True)
 
 
-class TaiKhoan(db.Model):
+class TaiKhoan(db.Model, UserMixin):
     ten_dang_nhap = Column(String(100), primary_key=True)
-    mat_khau = Column(String(100))
+    mat_khau = Column(String(100), nullable=False)
+
     ma_chuc_vu = Column(Integer, ForeignKey(ChucVu.ma_chuc_vu))
 
     # Thiết lập để lấy đối tượng
     GiaoVien = relationship('GiaoVien', backref="TaiKhoan", lazy=True)
     Admin = relationship('Admin', backref="TaiKhoan", lazy=True)
 
+    def __str__(self):
+        return self.ten_dang_nhap
+
+    def get_id(self):
+        return self.ten_dang_nhap
 
 
 class NguoiDung(db.Model):
@@ -64,9 +70,9 @@ class MonHoc(db.Model):
 
 
 GiaoVien_MonHoc = db.Table('GiaoVien_MonHoc',
-                        Column('ma_mon_hoc', Integer, ForeignKey(MonHoc.ma_mon_hoc)),
-                        Column('ma_giao_vien', Integer, ForeignKey(GiaoVien.ma))
-                        )
+                           Column('ma_mon_hoc', Integer, ForeignKey(MonHoc.ma_mon_hoc)),
+                           Column('ma_giao_vien', Integer, ForeignKey(GiaoVien.ma))
+                           )
 
 
 class KhoiLop(db.Model):
@@ -88,7 +94,6 @@ class QuyDinhSiSo(QuyDinh):
 
     # Thiết lập để lấy đối tượng
     Lop = relationship('Lop', backref="QuyDinhSiSo", lazy=True)
-
 
 
 class QuyDinhDoTuoi(QuyDinh):
@@ -127,9 +132,9 @@ class Lop(db.Model):
 
 
 DanhSachLop = db.Table('DanhSachLop',
-                    Column('ma_lop', Integer, ForeignKey(Lop.ma_lop)),
-                    Column('ma_hoc_sinh', Integer, ForeignKey(HocSinh.ma))
-                    )
+                       Column('ma_lop', Integer, ForeignKey(Lop.ma_lop)),
+                       Column('ma_hoc_sinh', Integer, ForeignKey(HocSinh.ma))
+                       )
 
 GiaoVien_Lop = db.Table('GiaoVien_Lop',
                         Column('ma_lop', Integer, ForeignKey(Lop.ma_lop)),
@@ -321,7 +326,7 @@ if __name__ == "__main__":
         db.session.execute(text("INSERT INTO DanhSachLop VALUES (4, 4)"))
         db.session.commit()
 
-        _newAgeLimit = QuyDinhDoTuoi(ten="Độ tuổi nhỏ nhất là 15",min_age=15, max_age=20)
+        _newAgeLimit = QuyDinhDoTuoi(ten="Độ tuổi nhỏ nhất là 15", min_age=15, max_age=20)
         db.session.add(_newAgeLimit)
         db.session.commit()
 

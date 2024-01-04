@@ -1,0 +1,60 @@
+{% extends 'layout/master_layout.html' %}
+
+
+{% block body %}
+    <!-- Begin Page Content -->
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                    </div>
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4 text-danger">{{ error_msg }}</h1>
+                                    </div>
+                                    <form class="user" method="post" action="{{ url_for('process_user_login') }}">
+                                        <div class="form-group">
+                                            <input type="text"
+                                                   class="form-control form-control-user"
+                                                   name="username"
+                                                   id="username"
+                                                   placeholder="Hãy nhập tài khoản của bạn">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password"
+                                                   class="form-control form-control-user"
+                                                   name="password"
+                                                   id="password"
+                                                   placeholder="Hãy nhập mật khẩu">
+                                        </div>
+                                        <div class="form-group d-flex align-items-center justify-content-center">
+                                            <button type="submit" class="mt-3 btn btn-primary">Đăng nhập
+                                            </button>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+{% endblock %}
+

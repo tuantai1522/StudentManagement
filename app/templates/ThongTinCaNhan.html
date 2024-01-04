@@ -1,0 +1,22 @@
+{% extends 'layout/master_layout.html' %}
+
+
+{% block body %}
+    <div class="container">
+
+        <h1>Thông tin cá nhân</h1>
+        <p>Mã số: {{ person.ma }}</p>
+        <p>Họ và tên {{ person.ho + " " + person.ten }}</p>
+        <p>Số điện thoại: {{ person.so_dien_thoai }}</p>
+        <p>Tên đăng nhập: {{ person.ten_dang_nhap }}</p>
+        {% if person.luong_co_ban is defined %}
+            <p>Chức vụ: Giáo viên</p>
+            <p>Lương cơ bản: {{ "{:,.0f} VND".format(person.luong_co_ban) }}</p>
+            <p>Hệ số lương: {{ person.he_so_luong }}</p>
+        {% else %}
+            <p>Chức vụ: Admin</p>
+        {% endif %}
+    </div>
+
+{% endblock %}
+

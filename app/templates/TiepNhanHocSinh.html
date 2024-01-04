@@ -1,0 +1,77 @@
+{% extends 'layout/master_layout.html' %}
+
+
+{% block body %}
+    <div class="container">
+        <h1>Tiếp nhận học sinh</h1>
+        <form class="row">
+            <div class="col-md-6 d-flex flex-column gap-1 p-2">
+                <label for="formGroupExampleInput">Họ</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        id="formGroupExampleInput"
+                        placeholder="Nhập họ"
+                />
+            </div>
+            <div class="col-md-6 d-flex flex-column gap-1 p-2">
+                <label for="formGroupExampleInput">Tên</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        id="formGroupExampleInput"
+                        placeholder="Nhập tên"
+                />
+            </div>
+            <div class="col-md-6 d-flex flex-column gap-1 p-2">
+                <label for="formGroupExampleInput">Giới tính</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        id="formGroupExampleInput"
+                        placeholder="Nhập giới tính"
+                />
+            </div>
+            <div class="col-md-6 d-flex flex-column gap-1 p-2">
+                <label for="formGroupExampleInput">Ngày sinh</label>
+                <input
+                        type="date"
+                        class="form-control"
+                        id="formGroupExampleInput"
+                        placeholder="Nhập ngày sinh"
+                />
+            </div>
+            <div class="col-md-6 d-flex flex-column gap-1 p-2">
+                <label for="formGroupExampleInput">Địa chỉ</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        id="formGroupExampleInput"
+                        placeholder="Nhập địa chỉ"
+                />
+            </div>
+            <div class="col-md-6 d-flex flex-column gap-1 p-2">
+                <label for="formGroupExampleInput">Số điện thoại</label>
+                <input
+                        type="tel"
+                        class="form-control"
+                        id="formGroupExampleInput"
+                        placeholder="Nhập số điện thoại"
+                />
+            </div>
+            <div class="col-md-6 d-flex flex-column gap-1 p-2">
+                <label for="formGroupExampleInput">Email</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        id="formGroupExampleInput"
+                        placeholder="Nhập email"
+                />
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <button type="submit" class="col-2 btn btn-primary">Lưu</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
