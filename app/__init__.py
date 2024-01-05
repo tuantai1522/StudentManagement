@@ -1,7 +1,6 @@
 from flask import Flask
 from urllib.parse import quote
 from flask_sqlalchemy import SQLAlchemy
-
 from flask_login import LoginManager
 
 app = Flask(__name__)
@@ -115,3 +114,26 @@ def getfinalaverage(MaHS):
         _avg = (_avg_15min.tongdiem + _avg_45min.tongdiem + _avg_final.tongdiem)/(_avg_15min.socondiem + _avg_45min.socondiem + _avg_final.socondiem)
         return _avg
 
+def update_rule(SiSoToiDa, tuoibenhat, tuoilonnhat):
+    from app.models import QuyDinhSiSo, QuyDinhDoTuoi
+    _getSiSoToiDa = db.session.query(QuyDinhSiSo).filter(QuyDinhSiSo.ma == 1).first()
+    _getSiSoToiDa.si_so = SiSoToiDa
+    _getAgeLimitData = db.session.query(QuyDinhDoTuoi).filter(QuyDinhDoTuoi.ma).first()
+    _getAgeLimitData.min_Age = tuoibenhat
+    _getAgeLimitData.max_age = tuoilonnhat
+    db.session.commit()
+
+def get_max_number_student_in_class():
+    from app.models import QuyDinhSiSo
+    _getSiSoToiDa = db.session.query(QuyDinhSiSo).filter(QuyDinhSiSo.ma == 1).first()
+    return _getSiSoToiDa.si_so
+
+def get_max_age_limit():
+    from app.models import QuyDinhDoTuoi
+    _getAgeLimitData = db.session.query(QuyDinhDoTuoi).filter(QuyDinhDoTuoi.ma).first()
+    return _getAgeLimitData.max_age
+
+def get_min_age_limit():
+    from app.models import QuyDinhDoTuoi
+    _getAgeLimitData = db.session.query(QuyDinhDoTuoi).filter(QuyDinhDoTuoi.ma).first()
+    return _getAgeLimitData.min_age

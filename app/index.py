@@ -5,7 +5,7 @@ from app import app, login, query
 from app import *
 from flask_login import login_user, logout_user, login_required, current_user
 from os import path
-from app.models import TaiKhoan, Lop, NamHoc, HocKy, QuyDinhSiSo, HocSinh, Diem
+from app.models import TaiKhoan, Lop, NamHoc, HocKy, QuyDinhSiSo, HocSinh, Diem, QuyDinhDoTuoi
 
 # HIỆN TRANG CHỦ CỦA DASHBOARD
 from app.query import get_user
@@ -228,6 +228,23 @@ def common_resp():
         person = get_user(current_user.ten_dang_nhap)
 
     return {'person': person}
+
+# REGION THAY ĐỔI NỘI QUY
+@app.route('/noiquy')
+def noiquy_page():
+    message = session.pop('message', None)
+    return render_template('noiquy.html', max_si_so=get_max_number_student_in_class(),
+                           min_age=get_min_age_limit(), max_age=get_max_age_limit(), message=message)
+@app.route('/updaterule', methods=['POST'])
+def updaterule():
+    _siSoToiDa = request.form.get('sisotoida')
+    _tuoiBeNhat = request.form.get('dotuoithapnhat')
+    _tuoiLonNhat = request.form.get('dotuoilonnhat')
+    update_rule(_siSoToiDa, _tuoiBeNhat, _tuoiLonNhat)
+    session['message'] = 'Cập nhật quy định thành công'
+    return redirect(url_for('noiquy_page'))
+
+# ENDREGION
 
 
 if __name__ == "__main__":
