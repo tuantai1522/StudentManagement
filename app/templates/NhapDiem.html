@@ -2,6 +2,36 @@
 
 
 {% block body %}
-    <h1>Nhập điểm</h1>
+    <div class="container-fluid">
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Grades Management</h1>
+    </div>
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Lớp</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for class in classes %}
+        <tr>
+            <th scope="row">{{ class.ten_lop }}</th>
+            {% set getClassesSemesters = getclassessemester(class.ten_lop) %}
+            {% for _getClassesSemester in getClassesSemesters %}
+            <td scope="row">
+                <a href="{{ url_for('class_byclassid', MaLop=_getClassesSemester.ma_lop ) }}">
+                    {{ _getClassesSemester.ten_hoc_ky + ' ' + _getClassesSemester.ten_nam_hoc }}
+                </a>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
 
