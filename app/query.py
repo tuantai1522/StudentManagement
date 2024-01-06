@@ -1,5 +1,8 @@
 import hashlib
-from app.models import TaiKhoan, NguoiDung, GiaoVien, Admin
+
+from flask import jsonify
+
+from app.models import TaiKhoan, NguoiDung, GiaoVien, Admin, QuyDinhDoTuoi
 
 
 def get_user(ten_dang_nhap):
@@ -17,3 +20,11 @@ def check_login(ten_dang_nhap, mat_khau):
 
         return TaiKhoan.query.filter(TaiKhoan.ten_dang_nhap.__eq__(ten_dang_nhap.strip()),
                                      TaiKhoan.mat_khau.__eq__(mat_khau)).first()
+
+
+def get_max_age():
+    return QuyDinhDoTuoi.query.get(1).max_age
+
+
+def get_min_age():
+    return QuyDinhDoTuoi.query.get(1).min_age

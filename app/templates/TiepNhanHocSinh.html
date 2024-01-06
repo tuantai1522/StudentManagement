@@ -4,13 +4,14 @@
 {% block body %}
     <div class="container">
         <h1>Tiếp nhận học sinh</h1>
-        <form class="row">
+        <form class="row" method="post" action="{{ url_for('tiep_nhan_hoc_sinh') }}">
             <div class="col-md-6 d-flex flex-column gap-1 p-2">
                 <label for="formGroupExampleInput">Họ</label>
                 <input
                         type="text"
                         class="form-control"
-                        id="formGroupExampleInput"
+                        id="ho"
+                        name="ho"
                         placeholder="Nhập họ"
                 />
             </div>
@@ -19,25 +20,56 @@
                 <input
                         type="text"
                         class="form-control"
-                        id="formGroupExampleInput"
+                        id="ten"
+                        name="ten"
                         placeholder="Nhập tên"
                 />
             </div>
             <div class="col-md-6 d-flex flex-column gap-1 p-2">
-                <label for="formGroupExampleInput">Giới tính</label>
-                <input
-                        type="text"
-                        class="form-control"
-                        id="formGroupExampleInput"
-                        placeholder="Nhập giới tính"
-                />
+                <label for="gioitinh">Giới tính</label>
+
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="gioitinh"
+                           id="nam"
+                           value="Nam"
+                           checked>
+                    <label class="form-check-label" for="nam">
+                        Nam
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="gioitinh"
+                           id="nu"
+                           value="Nữ"
+                    >
+                    <label class="form-check-label" for="nu">
+                        Nữ
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="gioitinh"
+                           id="khac"
+                           value="Khác">
+                    <label class="form-check-label" for="khac">
+                        Khác
+                    </label>
+                </div>
             </div>
             <div class="col-md-6 d-flex flex-column gap-1 p-2">
                 <label for="formGroupExampleInput">Ngày sinh</label>
                 <input
                         type="date"
                         class="form-control"
-                        id="formGroupExampleInput"
+                        id="ngaysinh"
+                        name="ngaysinh"
                         placeholder="Nhập ngày sinh"
                 />
             </div>
@@ -46,7 +78,8 @@
                 <input
                         type="text"
                         class="form-control"
-                        id="formGroupExampleInput"
+                        id="diachi"
+                        name="diachi"
                         placeholder="Nhập địa chỉ"
                 />
             </div>
@@ -55,7 +88,8 @@
                 <input
                         type="tel"
                         class="form-control"
-                        id="formGroupExampleInput"
+                        id="sodienthoai"
+                        name="sodienthoai"
                         placeholder="Nhập số điện thoại"
                 />
             </div>
@@ -64,14 +98,20 @@
                 <input
                         type="text"
                         class="form-control"
-                        id="formGroupExampleInput"
+                        id="email"
+                        name="email"
                         placeholder="Nhập email"
                 />
             </div>
             <div class="d-flex justify-content-center mt-3">
-                <button type="submit" class="col-2 btn btn-primary">Lưu</button>
+                <button onclick="addStudent()" type="button" class="col-2 btn btn-primary btn-submit-hoc-sinh">Lưu</button>
             </div>
         </form>
     </div>
+
+    <script src="{{ url_for('static', filename = 'js/Action/TiepNhanHocSinh.js') }}"></script>
+
 {% endblock %}
+
+
 
