@@ -1,0 +1,34 @@
+{% extends 'layout/master_layout.html' %}
+
+
+{% block body %}
+<div class="container d-flex justify-content-center row">
+    {% for class in classes %}
+    <button id="{{ class.ten_lop }}_{{ class.ma_nam_hoc }}" type="button" style="margin: 5px; padding: 10px 20px; font-size: 16px;" class="btn btn-outline-success btn-class col-4">{{ class.ten_lop
+        }} {{ class.ten_nam_hoc }}</button>
+    {% endfor %}
+</div>
+<br>
+<div class="container d-flex justify-content-center">
+    <h4><b>BÁO CÁO KẾT QUẢ HỌC TẬP THEO LỚP</b></h4>
+</div>
+<div id="show_report"></div>
+<script>
+    $('body').on('click', '.btn-class', function() {
+           var elementId = $(this).attr('id');
+           var tenlop = elementId.split('_')[0]
+           var manamhoc = elementId.split('_')[1]
+           $.ajax({
+               url: '/show_report/' + tenlop + '/' + manamhoc,
+               success: function(response) {
+                   $('#show_report').html(response);
+               },
+               error: function(xhr, status, error) {
+                   console.error(error);
+               }
+           });
+       });
+</script>
+
+{% endblock %}
+

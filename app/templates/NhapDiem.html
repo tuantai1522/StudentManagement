@@ -2,6 +2,63 @@
 
 
 {% block body %}
-    <h1>Nhập điểm</h1>
+<div class="container-fluid">
+    <!-- Modal -->
+    <div class="modal fade" id="AvgGradeTableClass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" id="model_content">
+<!--        Bảng điểm trung bình của lớp ở đây        -->
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <h1 class="h3 mb-0 text-gray-800">Grades Management</h1>
+        <div class="text-danger">*Ấn vào lớp học để xem điểm trung bình của lớp</div>
+    </div>
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Lớp</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for class in classes %}
+        <tr>
+            <th class="btn-avg-class" style="cursor: pointer;" id="{{class.ten_lop}}_{{class.ma_nam_hoc}}_{{class.ten_nam_hoc}}" scope="row" data-toggle="modal" data-target="#AvgGradeTableClass">{{ class.ten_lop }} - {{ class.ten_nam_hoc }}</th>
+            {% set getClassesSemesters = getclassessemester(class.ten_lop, class.ten_nam_hoc) %}
+            {% for _getClassesSemester in getClassesSemesters %}
+            <td scope="row">
+                <a href="{{ url_for('class_byclassid', MaLop=_getClassesSemester.ma_lop ) }}">
+                    {{ _getClassesSemester.ten_hoc_ky + ' ' + _getClassesSemester.ten_nam_hoc }}
+                </a>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function() {
+       $('body').on('click', '.btn-avg-class', function() {
+           var elementId = $(this).attr('id');
+           console.log(elementId)
+           $.ajax({
+               url: '/show_avggrade_byclass/' + elementId,
+               success: function(response) {
+                   $('#model_content').html(response);
+               },
+               error: function(xhr, status, error) {
+                   console.error(error);
+               }
+           });
+       });
+   });
+</script>
 {% endblock %}
 

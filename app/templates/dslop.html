@@ -1,0 +1,83 @@
+{% extends 'layout/master_layout.html' %}
+
+{% block body %}
+<form action="{{ url_for('addgrade_form') }}" method="post" id="addgrade_form">
+    <div class="modal fade" id="popupGrade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" id="popup_container">
+                <!--   in changeGrade or addGrade   -->
+            </div>
+        </div>
+    </div>
+</form>
+<h3>{{ classInfo.ten_lop }} - {{ classInfo.ten_hoc_ky }} - {{ classInfo.ten_nam_hoc }}</h3>
+<div class="text-danger">*Những con điểm khác màu là điểm của học kỳ khác.</div>
+<div id="grade_container">
+<!-- BẢNG ĐIỂM   -->
+</div>
+
+<script>
+    $(document).ready(function() {
+       $('body').on('click', '.grade_item', function() {
+           var elementId = $(this).attr('id');
+           console.log(elementId)
+           $.ajax({
+               url: '/add_point/' + elementId,
+               success: function(response) {
+                   $('#popup_container').html(response);
+               },
+               error: function(xhr, status, error) {
+                   console.error(error);
+               }
+           });
+       });
+   });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Thực hiện các công việc JavaScript sau khi DOM đã được tải hoàn toàn
+        myFunction();
+    });
+
+    function myFunction() {
+    // Lấy thẻ có id là grade_container
+    var container = document.getElementById('grade_container');
+
+    // Xoá hết các phần tử con của thẻ
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
+        $.ajax({
+           url: '/grade_table/' + {{ classInfo.ma_lop }},
+           success: function(response) {
+               $('#grade_container').html(response);
+           },
+           error: function(xhr, status, error) {
+               console.error(error);
+           }
+        });
+    }
+            $('#addgrade_form').submit(function(e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    type: "POST",
+                    url: '{{ url_for('addgrade_form') }}',
+                    data: formData,
+                    success: function(response) {
+                        $('#popupGrade').modal('hide'); // Ẩn modal
+                        if (response == 'Success') {
+                            alert('Add grade successfully')
+                        } else {
+                            alert('Add grade failed')
+                        }
+                        myFunction();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+</script>
+{% endblock %}
+

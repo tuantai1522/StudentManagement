@@ -1,0 +1,66 @@
+{% extends 'layout/master_layout.html' %}
+
+
+{% block body %}
+<form action="{{ url_for('updaterule') }}" method="post" id="UpdateRuleForm">
+    <div class=" row justify-content-center">
+        <div class="col-5">
+            <div class="h3 text-center font-weight-bold text-gray-900">THAY ĐỔI NỘI QUY</div>
+            <div class="mb-3">
+                <label for="SiSoToiDa" class="form-label">Sĩ số tối đa</label>
+                <input required name="sisotoida" type="number" class="form-control" id="SiSoToiDa"
+                       placeholder="Sĩ số tối đa" value="{{max_si_so}}">
+            </div>
+            <div class="mb-3">
+                <label for="TuoiBeNhat" class="form-label">Độ tuổi thấp nhất</label>
+                <input min="0" max="100" required name="dotuoithapnhat" type="number" class="form-control"
+                       id="TuoiBeNhat"
+                       placeholder="Nhập tuổi thấp nhất có thể nhập học" value="{{min_age}}">
+            </div>
+            <div class="mb-3">
+                <label for="TuoiLonNhat" class="form-label">Độ tuổi lớn nhất</label>
+                <input min="0" max="100" required name="dotuoilonnhat" type="number" class="form-control"
+                       id="TuoiLonNhat"
+                       placeholder="Nhập tuổi lớn nhất có thể nhập học" value="{{max_age}}">
+            </div>
+            <div class="row justify-content-center">
+                <a class="btn btn-outline-primary">
+                    Quay về
+                </a>
+                <div style="width: 5px;"></div>
+                <button type="submit" class="btn btn-success">
+                    Xác nhận đổi
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    document.getElementById("UpdateRuleForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        var _sisotoida = parseInt(document.getElementById("SiSoToiDa").value)
+        var _tuoibenhat = parseInt(document.getElementById("TuoiBeNhat").value)
+        var _tuoilonnhat = parseInt(document.getElementById("TuoiLonNhat").value
+        if (_tuoibenhat > _tuoilonnhat) {
+            alert("Tuổi bé nhất đang lớn hơn tuổi lớn nhất");
+            return; // Kết thúc hàm ở đây nếu có lỗi
+        }
+        var confirmation = confirm("Bạn có chắc chắn muốn đổi quy định? Quy định mới chỉ áp dụng cho thời điểm hiện tại trở đi");
+        if (confirmation) {
+            this.submit(); // this.submit() gửi form
+        } else { }
+    });
+
+
+</script>
+
+{% if message %}
+    <script>
+        var message = '{{ message }}';
+        if (message !== '') {
+            alert(message);
+        }
+    </script>
+{% endif %}
+{% endblock %}
+
