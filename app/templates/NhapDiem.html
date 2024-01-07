@@ -2,10 +2,19 @@
 
 
 {% block body %}
-    <div class="container-fluid">
-
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+<div class="container-fluid">
+    <!-- Modal -->
+    <div class="modal fade" id="AvgGradeTableClass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" id="model_content">
+<!--        Bảng điểm trung bình của lớp ở đây        -->
+            </div>
+        </div>
+    </div>
+    <div class="">
         <h1 class="h3 mb-0 text-gray-800">Grades Management</h1>
+        <div class="text-danger">*Ấn vào lớp học để xem điểm trung bình của lớp</div>
     </div>
     <br>
     <table class="table">
@@ -19,8 +28,8 @@
         <tbody>
         {% for class in classes %}
         <tr>
-            <th scope="row">{{ class.ten_lop }}</th>
-            {% set getClassesSemesters = getclassessemester(class.ten_lop) %}
+            <th class="btn-avg-class" style="cursor: pointer;" id="{{class.ten_lop}}_{{class.ma_nam_hoc}}_{{class.ten_nam_hoc}}" scope="row" data-toggle="modal" data-target="#AvgGradeTableClass">{{ class.ten_lop }} - {{ class.ten_nam_hoc }}</th>
+            {% set getClassesSemesters = getclassessemester(class.ten_lop, class.ten_nam_hoc) %}
             {% for _getClassesSemester in getClassesSemesters %}
             <td scope="row">
                 <a href="{{ url_for('class_byclassid', MaLop=_getClassesSemester.ma_lop ) }}">
@@ -33,5 +42,23 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    $(document).ready(function() {
+       $('body').on('click', '.btn-avg-class', function() {
+           var elementId = $(this).attr('id');
+           console.log(elementId)
+           $.ajax({
+               url: '/show_avggrade_byclass/' + elementId,
+               success: function(response) {
+                   $('#model_content').html(response);
+               },
+               error: function(xhr, status, error) {
+                   console.error(error);
+               }
+           });
+       });
+   });
+</script>
 {% endblock %}
 

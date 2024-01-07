@@ -1,6 +1,5 @@
 {% extends 'layout/master_layout.html' %}
 
-
 {% block body %}
 <form action="{{ url_for('addgrade_form') }}" method="post" id="addgrade_form">
     <div class="modal fade" id="popupGrade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -13,7 +12,7 @@
     </div>
 </form>
 <h3>{{ classInfo.ten_lop }} - {{ classInfo.ten_hoc_ky }} - {{ classInfo.ten_nam_hoc }}</h3>
-
+<div class="text-danger">*Những con điểm khác màu là điểm của học kỳ khác.</div>
 <div id="grade_container">
 <!-- BẢNG ĐIỂM   -->
 </div>

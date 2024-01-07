@@ -73,17 +73,6 @@
                 <span>Nhập điểm</span></a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('report_page') }}">
-                <i class="fas fa-fw fa-chart-area"></i>
-                <span>Báo cáo thống kê</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('noiquy_page') }}">
-                <i class="fas fa-fw fa-chart-area"></i>
-                <span>Nội quy</span></a>
-        </li>
         {% else %}
 
         <!-- Nav Item - Charts -->
@@ -100,18 +89,16 @@
                 <span>Lập danh sách lớp</span></a>
         </li>
 
-        <!-- Nav Item - Charts -->
         <li class="nav-item">
-            <a class="nav-link" href="/user/thong_ke">
+            <a class="nav-link" href="{{ url_for('report_page') }}">
                 <i class="fas fa-fw fa-chart-area"></i>
-                <span>Thống kê</span></a>
+                <span>Báo cáo thống kê</span></a>
         </li>
 
-        <!-- Nav Item - Tables -->
         <li class="nav-item">
-            <a class="nav-link" href="/user/thay_doi_quy_dinh">
+            <a class="nav-link" href="{{ url_for('noiquy_page') }}">
                 <i class="fas fa-fw fa-chart-area"></i>
-                <span>Thay đổi qui định</span></a>
+                <span>Nội quy</span></a>
         </li>
         {% endif %}
 
