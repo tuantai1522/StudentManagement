@@ -2,12 +2,13 @@ import math
 from datetime import datetime
 
 from flask import render_template, request, redirect, session, jsonify, url_for
-from sqlalchemy import delete
-from app import app, login, query, db
+from app import *
 from flask_login import login_user, logout_user, login_required, current_user
 from os import path
-from app import *
 from app.models import TaiKhoan, Lop, NamHoc, HocKy, QuyDinhSiSo, HocSinh, Diem, QuyDinhDoTuoi, GiaoVien, MonHoc
+from sqlalchemy import delete
+
+# from app import app, login, query, db
 
 # HIỆN TRANG CHỦ CỦA DASHBOARD
 from app.query import *
