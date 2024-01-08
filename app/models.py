@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Enum, DateTime, Boolean, Table, text, Date
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, text
+from sqlalchemy.orm import relationship, backref
 from app import db
 from flask_login import UserMixin
 from datetime import datetime
