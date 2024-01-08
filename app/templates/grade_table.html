@@ -1,0 +1,57 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">MHS</th>
+        <th scope="col">Họ tên</th>
+        {% for pointType in pointTypes %}
+        <th scope="col">{{ pointType.ten_loai_diem }}</th>
+        {% endfor %}
+        <th scope="col">TB HK1</th>
+        <th scope="col">TB HK2</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for student in studentsInClass %}
+    <tr>
+        <th scope="row">{{ student.ma }}</th>
+        <th scope="row">{{ student.ho + ' ' + student.ten }}</th>
+        {% set gradesOfStudent = get_grade(student.ma, classInfo.ma_hoc_ky) %}
+        {% for grade in gradesOfStudent %}
+        {% if (grade[0] == -1) %}
+        <th scope="row"><input data-toggle="modal" data-target="#popupGrade"
+                               id="{{ grade[0] }}_{{ grade[1] }}_{{ grade[2] }}_{{ grade[3] }}_{{ grade[4] }}_{{ grade[5] }}"
+                               class="grade_item" readonly
+                               style="width: 48px; background-color: lightgray; border-radius: 5px" type="number"
+                               value="{{ grade[1] }}"></th>
+        {% else %}
+        <!--            tuple[MaDiem, SoDiem, MaHS, MaHocKy, MaLoaiDiem]-->
+        {% if grade[3] != classInfo.ma_hoc_ky %}
+         <th id="{{ grade[0] }}_{{ grade[1] }}_{{ grade[2] }}_{{ grade[3] }}_{{ grade[4] }}_{{ grade[5] }}" class="text-danger grade_item"
+            scope="row">{{ grade[1] }}
+        </th>
+        {% else %}
+         <th id="{{ grade[0] }}_{{ grade[1] }}_{{ grade[2] }}_{{ grade[3] }}_{{ grade[4] }}_{{ grade[5] }}" class="grade_item"
+            scope="row">{{ grade[1] }}
+        </th>
+        {% endif %}
+
+        {% endif %}
+        {% endfor %}
+        {% set arr_get_avggrade_bysemester = get_avggrade_bysemester(student.ma) %}
+        {% if arr_get_avggrade_bysemester[0] %}
+        <th>{{arr_get_avggrade_bysemester[0]}}</th>
+        {% else %}
+        <th class="text-danger">Chưa đủ điểm</th>
+        {% endif %}
+
+        {% if arr_get_avggrade_bysemester[1] %}
+        <th>{{arr_get_avggrade_bysemester[1]}}</th>
+        {% else %}
+        <th class="text-danger">Chưa đủ điểm</th>
+        {% endif %}
+
+    </tr>
+    {% endfor %}
+
+    </tbody>
+</table>

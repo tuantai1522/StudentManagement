@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Bảng điểm lớp {{TenLop}}: {{NamHoc}}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" id="">
+    {% if arr_Grade[0] %}
+    <div class="text-grey-800">Trung bình học kì 1: {{ arr_Grade[0] }}</div>
+    {% else %}
+    <div class="text-danger">Chưa đủ điểm học kì 1 của học sinh để tổng kết</div>
+    {% endif %}
+
+    {% if arr_Grade[1] %}
+    <div class="text-grey-800">Trung bình học kì 2: {{ arr_Grade[1] }}</div>
+    {% else %}
+    <div class="text-danger">Chưa đủ điểm học kì 2 của học sinh để tổng kết</div>
+    {% endif %}
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>

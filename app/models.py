@@ -59,6 +59,9 @@ class GiaoVien(NguoiDung):
     luong_co_ban = Column(Float)
     he_so_luong = Column(Float)
     ten_dang_nhap = Column(String(100), ForeignKey(TaiKhoan.ten_dang_nhap))
+    # Backref đến bảng môn học để lấy giá trị và ngược lại
+    subjects = relationship('MonHoc', secondary='GiaoVien_MonHoc', backref=db.backref('teachers', lazy='dynamic'))
+    # classes = relationship('Lop', secondary='GiaoVien_Lop', backref='teachers')
 
 
 class MonHoc(db.Model):
@@ -128,7 +131,9 @@ class Lop(db.Model):
     ma_hoc_ky = Column(Integer, ForeignKey(HocKy.ma_hoc_ky))
 
     # Sử dụng relationship để thiết lập quan hệ với bảng HOCSINH thông qua bảng trung gian DSLOP
-    students = relationship('HocSinh', secondary='DanhSachLop', backref=backref('lop', lazy=True))
+    students = relationship('HocSinh', secondary='DanhSachLop', backref=db.backref('classes', lazy='dynamic'))
+    # Sử dụng relationship để thiết lập quan hệ với bảng GiaoVien thông qua bảng trung gian GiaoVien_Lop
+    teachers = relationship('GiaoVien', secondary='GiaoVien_Lop', backref=db.backref('classes', lazy='dynamic'))
 
 
 DanhSachLop = db.Table('DanhSachLop',
@@ -164,6 +169,7 @@ if __name__ == "__main__":
     from app import app
 
     with app.app_context():
+        db.drop_all()
         db.create_all()
 
         _newRole1 = ChucVu(ten_chuc_vu='Giáo viên')
@@ -177,8 +183,12 @@ if __name__ == "__main__":
         _newAccount1 = TaiKhoan(ten_dang_nhap='gv1',
                                 mat_khau=str(hashlib.md5('123456'.encode('utf-8')).hexdigest()),
                                 ma_chuc_vu=1)
-
         db.session.add(_newAccount1)
+
+        _newAccount3 = TaiKhoan(ten_dang_nhap='gv2',
+                                mat_khau=str(hashlib.md5('123456'.encode('utf-8')).hexdigest()),
+                                ma_chuc_vu=1)
+        db.session.add(_newAccount3)
 
         _newAccount2 = TaiKhoan(ten_dang_nhap='admin1',
                                 mat_khau=str(hashlib.md5('123456'.encode('utf-8')).hexdigest()),
@@ -186,13 +196,22 @@ if __name__ == "__main__":
         db.session.add(_newAccount2)
         db.session.commit()
 
-        _newTeacher = GiaoVien(ho='Nguyễn',
+        _newTeacher1 = GiaoVien(ho='Nguyễn',
                                ten='Lê Đăng Khoa',
                                so_dien_thoai='1231231231',
                                luong_co_ban=1000000,
                                he_so_luong=1,
                                ten_dang_nhap='gv1')
-        db.session.add(_newTeacher)
+        db.session.add(_newTeacher1)
+        db.session.commit()
+
+        _newTeacher2 = GiaoVien(ho='Nguyễn',
+                               ten='Lê Đa',
+                               so_dien_thoai='1231231231',
+                               luong_co_ban=1000000,
+                               he_so_luong=1,
+                               ten_dang_nhap='gv2')
+        db.session.add(_newTeacher2)
         db.session.commit()
 
         _newAdmin = Admin(ho='Nguyễn',
@@ -264,6 +283,33 @@ if __name__ == "__main__":
                                email='hs4@gmail.com')
         db.session.add(_newStudent4)
 
+        _newStudent4 = HocSinh(ho='Nguyễn',
+                               ten='Lê Đăng Khoa 5',
+                               so_dien_thoai='56746545',
+                               gioi_tinh='Nữ',
+                               ngay_sinh=datetime(2003, 1, 1),
+                               dia_chi='300 Lê Văn Lương Phường 14 Quận 7',
+                               email='hs5@gmail.com')
+        db.session.add(_newStudent4)
+
+        _newStudent4 = HocSinh(ho='Nguyễn',
+                               ten='Lê Đăng Khoa 6',
+                               so_dien_thoai='56746545',
+                               gioi_tinh='Nữ',
+                               ngay_sinh=datetime(2003, 1, 1),
+                               dia_chi='300 Lê Văn Lương Phường 14 Quận 7',
+                               email='hs6@gmail.com')
+        db.session.add(_newStudent4)
+
+        _newStudent4 = HocSinh(ho='Nguyễn',
+                               ten='Lê Đăng Khoa 7',
+                               so_dien_thoai='56746545',
+                               gioi_tinh='Nữ',
+                               ngay_sinh=datetime(2003, 1, 1),
+                               dia_chi='300 Lê Văn Lương Phường 14 Quận 7',
+                               email='hs7@gmail.com')
+        db.session.add(_newStudent4)
+
         db.session.commit()
 
         nam_hoc = NamHoc(ma_nam_hoc=2023, ten_nam_hoc='NĂM HỌC 2023-2024')
@@ -277,17 +323,29 @@ if __name__ == "__main__":
         db.session.add(hoc_ki2)
         db.session.commit()
 
-        lop1 = Lop(ten_lop='10A1', ma_khoi_lop='10', ma_qdss=1, ma_hoc_ky='1')
-        db.session.add(lop1)
+        lop11 = Lop(ten_lop='10A1', ma_khoi_lop='10', ma_qdss=1, ma_hoc_ky='1')
+        db.session.add(lop11)
 
-        lop2 = Lop(ten_lop='10A2', ma_khoi_lop='10', ma_qdss=1, ma_hoc_ky='2')
-        db.session.add(lop2)
+        lop12 = Lop(ten_lop='10A1', ma_khoi_lop='10', ma_qdss=1, ma_hoc_ky='2')
+        db.session.add(lop12)
 
-        lop3 = Lop(ten_lop='10A3', ma_khoi_lop='10', ma_qdss=1, ma_hoc_ky='1')
-        db.session.add(lop3)
+        lop21 = Lop(ten_lop='10A2', ma_khoi_lop='10', ma_qdss=1, ma_hoc_ky='1')
+        db.session.add(lop21)
 
-        lop4 = Lop(ten_lop='10A4', ma_khoi_lop='10', ma_qdss=1, ma_hoc_ky='2')
-        db.session.add(lop4)
+        lop22 = Lop(ten_lop='10A2', ma_khoi_lop='10', ma_qdss=1, ma_hoc_ky='2')
+        db.session.add(lop22)
+
+        lop31 = Lop(ten_lop='10A3', ma_khoi_lop='10', ma_qdss=1, ma_hoc_ky='1')
+        db.session.add(lop31)
+
+        lop32 = Lop(ten_lop='10A3', ma_khoi_lop='10', ma_qdss=1, ma_hoc_ky='2')
+        db.session.add(lop32)
+
+        lop41 = Lop(ten_lop='10A4', ma_khoi_lop='10', ma_qdss=1, ma_hoc_ky='1')
+        db.session.add(lop41)
+
+        lop42 = Lop(ten_lop='10A4', ma_khoi_lop='10', ma_qdss=1, ma_hoc_ky='2')
+        db.session.add(lop42)
         db.session.commit()
 
         for i in range(1, 6):
@@ -303,27 +361,92 @@ if __name__ == "__main__":
         _newGradeType = LoaiDiem(ten_loai_diem=f'Cuối học kỳ')
         db.session.add(_newGradeType)
         db.session.commit()
-
+        # region Thêm điểm học sinh 1
         _newPoint1 = Diem(so_diem=9, ma_loai_diem=1, ma_mon_hoc=1, ma_hs=1, ma_hoc_ky=1)
         db.session.add(_newPoint1)
 
-        _newPoint2 = Diem(so_diem=8, ma_loai_diem=2, ma_mon_hoc=1, ma_hs=1, ma_hoc_ky=2)
+        _newPoint1 = Diem(so_diem=9, ma_loai_diem=2, ma_mon_hoc=1, ma_hs=1, ma_hoc_ky=1)
+        db.session.add(_newPoint1)
+
+        _newPoint1 = Diem(so_diem=8, ma_loai_diem=3, ma_mon_hoc=1, ma_hs=1, ma_hoc_ky=1)
+        db.session.add(_newPoint1)
+
+        _newPoint1 = Diem(so_diem=10, ma_loai_diem=6, ma_mon_hoc=1, ma_hs=1, ma_hoc_ky=1)
+        db.session.add(_newPoint1)
+
+        _newPoint1 = Diem(so_diem=5, ma_loai_diem=7, ma_mon_hoc=1, ma_hs=1, ma_hoc_ky=1)
+        db.session.add(_newPoint1)
+
+        _newPoint1 = Diem(so_diem=10, ma_loai_diem=9, ma_mon_hoc=1, ma_hs=1, ma_hoc_ky=1)
+        db.session.add(_newPoint1)
+        # endregion
+
+        # region Thêm điểm học sinh 2
+        _newPoint2 = Diem(so_diem=5, ma_loai_diem=1, ma_mon_hoc=1, ma_hs=2, ma_hoc_ky=1)
         db.session.add(_newPoint2)
 
-        _newPoint3 = Diem(so_diem=10, ma_loai_diem=3, ma_mon_hoc=1, ma_hs=1, ma_hoc_ky=1)
+        _newPoint2 = Diem(so_diem=9, ma_loai_diem=2, ma_mon_hoc=1, ma_hs=2, ma_hoc_ky=1)
+        db.session.add(_newPoint2)
+
+        _newPoint2 = Diem(so_diem=8, ma_loai_diem=3, ma_mon_hoc=1, ma_hs=2, ma_hoc_ky=1)
+        db.session.add(_newPoint2)
+
+        _newPoint2 = Diem(so_diem=5, ma_loai_diem=7, ma_mon_hoc=1, ma_hs=2, ma_hoc_ky=1)
+        db.session.add(_newPoint2)
+
+        _newPoint2 = Diem(so_diem=10, ma_loai_diem=9, ma_mon_hoc=1, ma_hs=2, ma_hoc_ky=1)
+        db.session.add(_newPoint2)
+        # endregion
+
+        # region Thêm điểm học sinh 3
+        _newPoint3 = Diem(so_diem=1, ma_loai_diem=1, ma_mon_hoc=1, ma_hs=3, ma_hoc_ky=1)
         db.session.add(_newPoint3)
 
-        _newPoint4 = Diem(so_diem=10, ma_loai_diem=6, ma_mon_hoc=1, ma_hs=1, ma_hoc_ky=1)
+        _newPoint3 = Diem(so_diem=5, ma_loai_diem=6, ma_mon_hoc=1, ma_hs=3, ma_hoc_ky=1)
+        db.session.add(_newPoint3)
+
+        _newPoint3 = Diem(so_diem=1, ma_loai_diem=9, ma_mon_hoc=1, ma_hs=3, ma_hoc_ky=1)
+        db.session.add(_newPoint3)
+        # endregion
+
+        # region Thêm điểm học sinh 4
+        _newPoint4 = Diem(so_diem=9, ma_loai_diem=1, ma_mon_hoc=1, ma_hs=4, ma_hoc_ky=1)
         db.session.add(_newPoint4)
 
-        _newPoint5 = Diem(so_diem=10, ma_loai_diem=9, ma_mon_hoc=1, ma_hs=1, ma_hoc_ky=1)
-        db.session.add(_newPoint5)
+        _newPoint4 = Diem(so_diem=5, ma_loai_diem=6, ma_mon_hoc=1, ma_hs=4, ma_hoc_ky=1)
+        db.session.add(_newPoint4)
+
+        _newPoint4 = Diem(so_diem=1, ma_loai_diem=9, ma_mon_hoc=1, ma_hs=4, ma_hoc_ky=1)
+        db.session.add(_newPoint4)
+        # endregion
+
         db.session.commit()
 
         db.session.execute(text("INSERT INTO DanhSachLop VALUES (1, 1)"))
+        db.session.execute(text("INSERT INTO DanhSachLop VALUES (1, 2)"))
+        db.session.execute(text("INSERT INTO DanhSachLop VALUES (1, 3)"))
+        db.session.execute(text("INSERT INTO DanhSachLop VALUES (2, 1)"))
         db.session.execute(text("INSERT INTO DanhSachLop VALUES (2, 2)"))
-        db.session.execute(text("INSERT INTO DanhSachLop VALUES (3, 3)"))
+        db.session.execute(text("INSERT INTO DanhSachLop VALUES (3, 4)"))
+        db.session.execute(text("INSERT INTO DanhSachLop VALUES (3, 5)"))
         db.session.execute(text("INSERT INTO DanhSachLop VALUES (4, 4)"))
+        db.session.execute(text("INSERT INTO DanhSachLop VALUES (4, 5)"))
+        db.session.execute(text("INSERT INTO DanhSachLop VALUES (5, 6)"))
+        db.session.execute(text("INSERT INTO DanhSachLop VALUES (6, 6)"))
+        db.session.execute(text("INSERT INTO DanhSachLop VALUES (7, 7)"))
+        db.session.execute(text("INSERT INTO DanhSachLop VALUES (8, 7)"))
+
+        _newTeacher1.classes.append(lop11)
+        _newTeacher1.classes.append(lop12)
+        _newTeacher1.classes.append(lop31)
+        _newTeacher1.classes.append(lop32)
+        _newTeacher2.classes.append(lop21)
+        _newTeacher2.classes.append(lop22)
+        _newTeacher2.classes.append(lop41)
+        _newTeacher2.classes.append(lop42)
+
+        _newTeacher1.subjects.append(_newSubject)
+        _newTeacher2.subjects.append(_newSubject)
         db.session.commit()
 
         _newAgeLimit = QuyDinhDoTuoi(ten="Độ tuổi nhỏ nhất là 15", min_age=15, max_age=20)
