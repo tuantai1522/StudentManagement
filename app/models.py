@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Enum, DateTime, Boolean, Table, text, Date
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, text
+from sqlalchemy.orm import relationship, backref
 from app import db
 from flask_login import UserMixin
 from datetime import datetime
@@ -128,7 +128,7 @@ class Lop(db.Model):
     ma_hoc_ky = Column(Integer, ForeignKey(HocKy.ma_hoc_ky))
 
     # Sử dụng relationship để thiết lập quan hệ với bảng HOCSINH thông qua bảng trung gian DSLOP
-    students = relationship('HocSinh', secondary='DanhSachLop', backref=db.backref('classes', lazy='dynamic'))
+    students = relationship('HocSinh', secondary='DanhSachLop', backref=backref('lop', lazy=True))
 
 
 DanhSachLop = db.Table('DanhSachLop',

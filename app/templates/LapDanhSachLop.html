@@ -2,6 +2,92 @@
 
 
 {% block body %}
-    <h1>Lập danh sách lớp</h1>
+    <div class="container">
+        <h1>Lập danh sách lớp</h1>
+        <form class="row ">
+            <div class="col-md-3 d-flex flex-column gap-1 p-2">
+                <h2>Chọn lớp và học kỳ</h2>
+                <label for="hoc_ky_dropdown">Chọn học kỳ</label>
+                <select onchange="chonHocKy()" id="hoc_ky_dropdown" class="form-select"
+                        aria-label="Default select example">
+                    <option value="-1" selected>Chọn</option>
+                    {% for school_year in school_years %}
+                        {% for semester in school_year.HocKy %}
+                            <option value={{ semester.ma_hoc_ky }}>{{ school_year.ten_nam_hoc }}
+                                - {{ semester.ten_hoc_ky }}</option>
+                        {% endfor %}
+                    {% endfor %}
+                </select>
+                <label for="lop_dropdown">Chọn lớp</label>
+                <select onchange="chonLop()" disabled="true" id="lop_dropdown" class="form-select"
+                        aria-label="Default select example">
+                    <option value="-1" selected>Chọn</option>
+                </select>
+
+                <h5 class="size mt-3"></h5>
+            </div>
+            <div class="col-md-9 d-flex flex-column gap-1 p-2">
+                <h2>Danh sách học sinh</h2>
+
+                <!-- Container có thể kéo -->
+                <div class="scrollable-container">
+                    <!-- Container có thể kéo -->
+                    <div class="scrollable-container list-group">
+                        <table class="table table-hover table-striped table-success">
+                            <thead>
+                            <tr>
+                                <th scope="col">Mã số</th>
+                                <th scope="col">Họ</th>
+                                <th scope="col">Tên</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for student in students_not_in_lop %}
+                                <tr>
+                                    <th colspan="1" scope="row">{{ student.ma }}</th>
+                                    <td>{{ student.ho }}</td>
+                                    <td>{{ student.ten }}</td>
+                                    <td>{{ student.email }}</td>
+                                    <td>
+                                        <div class="form-check">
+                                            <input name="selected_students" value={{ student.ma }} type="checkbox"
+                                                   class="form-check-input"
+                                                   id="{{ student.ma }}">
+                                            <label class="form-check-label" for="{{ student.ma }}"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <div class="form-group d-flex align-items-center justify-content-center mt-3">
+                    <button onclick="Luu(event)" type="button" class="btn btn-primary">Lưu
+                    </button>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+
+    </div>
+    </form>
+    </div>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/LapDanhSachLop.css') }}">
+
+    <script src="{{ url_for('static', filename = 'js/Action/LapDanhSachLop.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-BSBmM5dZCpe9LdEUE1ACJDEfhsjM1st4h8PbCBkRGJPDZM4PHVC5S8XqjhEM6kMy"
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/simplebar@5.3.0/dist/simplebar.min.js"></script>
+
 {% endblock %}
 
