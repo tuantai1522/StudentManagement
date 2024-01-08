@@ -1,0 +1,4 @@
+.scrollable-container {
+    max-height: 300px; /* Độ cao tối đa của container có thể kéo */
+    overflow-y: auto; /* Kích thước container tự điều chỉnh khi chiều cao vượt quá max-height */
+}
