@@ -29,6 +29,7 @@ def getclasses():
 def getclassesofteacher(idTeacher):
     from app.models import Lop, HocKy, NamHoc
     from app.models import GiaoVien
+    # Lấy ra danh sách lớp person dạy
     listClasses = db.session.query(Lop.ten_lop, NamHoc.ma_nam_hoc, NamHoc.ten_nam_hoc). \
         join(HocKy, HocKy.ma_hoc_ky == Lop.ma_hoc_ky). \
         join(NamHoc, NamHoc.ma_nam_hoc == HocKy.ma_nam_hoc). \
