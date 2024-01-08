@@ -162,10 +162,13 @@ const Luu = (event) => {
                     }
                 });
 
-                // Cập nhât sỉ số cho người dùng xem
-                size = data.si_so;
-                sizeElement.textContent = `Sỉ số hiện tại của lớp ${data.lop} là ${size}`;
+                sizeElement.textContent = `Sỉ số hiện tại của lớp ${data.lop} là ${data.si_so}`;
 
+                for (const cur of info_classes) {
+                    if (cur.ten_lop == data.lop) {
+                        cur.si_so = data.si_so;
+                    }
+                }
 
             } else {
                 Swal.fire({
@@ -205,8 +208,6 @@ const Luu = (event) => {
 }
 
 const chonLop = () => {
-    console.log(info_classes);
-
     //Lấy giá trị đang được chon của lop_dropdown
     const selectElement = document.getElementById("lop_dropdown");
 
@@ -222,7 +223,7 @@ const chonLop = () => {
         }
     }
 
-    sizeElement.textContent = `Sỉ số hiện tại của lớp ${currentClass.ten_lop} là ${currentClass.si_so || size}`;
+    sizeElement.textContent = `Sỉ số hiện tại của lớp ${currentClass.ten_lop} là ${currentClass.si_so}`;
 
 
 }

@@ -53,7 +53,6 @@ const chonHocKy = () => {
             while (lopDropdown.options.length > 1) {
                 lopDropdown.remove(1);
             }
-
             data.classes.forEach(data => {
                 const newOption = document.createElement('option');
                 newOption.value = data.ma_lop;
