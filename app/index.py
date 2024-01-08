@@ -159,7 +159,7 @@ def lap_danh_sach_lop_send_request():
 
             id_array = list(map(int, list_id.split('_')))
 
-            max = QuyDinhSiSo.query.get(lop.ma_lop).si_so
+            max = QuyDinhSiSo.query.get(lop.ma_qdss).si_so
 
             if(len(id_array) + len(lop.students) <= max):
                 for id in id_array:
