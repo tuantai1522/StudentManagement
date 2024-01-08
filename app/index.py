@@ -2,6 +2,8 @@ import math
 from datetime import datetime
 
 from flask import render_template, request, redirect, session, jsonify, url_for
+from sqlalchemy import delete
+
 from app import app, login, query, db
 from flask_login import login_user, logout_user, login_required, current_user
 from os import path
@@ -176,7 +178,6 @@ def lap_danh_sach_lop_send_request():
     return jsonify({'success': "Thêm học sinh vào lớp học thành công", 'list_id': list_id, 'lop': lop.ten_lop,
                     'si_so': len(lop.students)})
 
-
 @app.route('/user/xem_danh_sach_lop', methods=['get'])
 @login_required
 def xem_danh_sach_lop():
@@ -204,8 +205,8 @@ def xem_danh_sach_lop_send_request():
 
             serialized_classes = []
             for hoc_sinh in list_hoc_sinh:
-
                 serialized_classes.append({
+                    'ma': hoc_sinh.ma,
                     'ho': hoc_sinh.ho,
                     'ten': hoc_sinh.ten,
                     'gioitinh': hoc_sinh.gioi_tinh,
@@ -221,6 +222,50 @@ def xem_danh_sach_lop_send_request():
     return jsonify(
         {'success': "Lấy danh sách học sinh thành công", 'list_hoc_sinh': serialized_classes, 'ten_lop': lop.ten_lop,
          'siso': len(list_hoc_sinh)})
+
+
+@app.route('/user/xoa_hoc_sinh_in_danh_sach_lop', methods=['delete'])
+@login_required
+def xoa_hoc_sinh_in_danh_sach_lop():
+    try:
+        data = request.json
+        lop_id = data.get("lop_id")
+        hs_id = data.get("hs_id")
+
+        if lop_id and hs_id:
+            # Lấy đối tượng Lop từ DB
+            lop_obj = Lop.query.get(lop_id)
+
+            # Lấy đối tượng HocSinh từ DB
+            hocsinh_obj = HocSinh.query.get(hs_id)
+
+            lop_obj.students.remove(hocsinh_obj)
+            db.session.commit()
+
+            list_hoc_sinh = get_students_in_class(lop_id)
+
+            lop = Lop.query.get(lop_id)
+
+            serialized_classes = []
+            for hoc_sinh in list_hoc_sinh:
+                serialized_classes.append({
+                    'ma': hoc_sinh.ma,
+                    'ho': hoc_sinh.ho,
+                    'ten': hoc_sinh.ten,
+                    'gioitinh': hoc_sinh.gioi_tinh,
+                    'namsinh': hoc_sinh.ngay_sinh.year,
+                    'diachi': hoc_sinh.dia_chi,
+                })
+
+    except Exception as ex:
+        return jsonify({'error': ex})
+
+        # Thành công gửi dữ liệu
+    return jsonify(
+        {'success': "Xóa học sinh khỏi lớp thành công",
+         'siso': len(list_hoc_sinh),
+         'ten_lop': lop.ten_lop,
+         'list_hoc_sinh': serialized_classes})
 
 
 # Features for GiaoVien

@@ -120,6 +120,7 @@ const Luu = (event) => {
         const separator = '_';
         const list_id = selectedStudents.join(separator);
 
+        console.log(list_id, lopValue)
         fetch('/user/lap_danh_sach_lop_send_request', {
             method: 'post',
             body: JSON.stringify({
