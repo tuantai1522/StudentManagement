@@ -55,7 +55,7 @@ const addStudent = () => {
                 showConfirmButton: false,
                 timer: 3500
             });
-            // resetValue();
+            resetValue();
 
         } else {
             Swal.fire({
