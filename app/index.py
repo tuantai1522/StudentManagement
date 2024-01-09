@@ -288,10 +288,11 @@ def updaterule():
     _siSoToiDa = request.form.get('sisotoida')
     _tuoiBeNhat = request.form.get('dotuoithapnhat')
     _tuoiLonNhat = request.form.get('dotuoilonnhat')
-    update_rule(_siSoToiDa, _tuoiBeNhat, _tuoiLonNhat)
-    session['message'] = 'Cập nhật quy định thành công'
+    if update_rule(_siSoToiDa, _tuoiBeNhat, _tuoiLonNhat):
+        session['message'] = 'Cập nhật quy định thành công'
+    else:
+        session['message'] = 'Cập nhật quy định thất bại'
     return redirect(url_for('noiquy_page'))
-
 
 # endregion
 

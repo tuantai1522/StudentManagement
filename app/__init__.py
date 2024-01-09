@@ -2,7 +2,7 @@ from flask import Flask
 from urllib.parse import quote
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
-
+from sqlalchemy.exc import SQLAlchemyError
 
 app = Flask(__name__)
 
@@ -139,16 +139,21 @@ def getfinalaverage(MaHS):
                 _avg_15min.socondiem + _avg_45min.socondiem * 2 + _avg_final.socondiem * 3)
         return _avg
 
-
 def update_rule(SiSoToiDa, tuoibenhat, tuoilonnhat):
     from app.models import QuyDinhSiSo, QuyDinhDoTuoi
-    _getSiSoToiDa = db.session.query(QuyDinhSiSo).filter(QuyDinhSiSo.ma == 1).first()
-    _getSiSoToiDa.si_so = SiSoToiDa
-    _getAgeLimitData = db.session.query(QuyDinhDoTuoi).filter(QuyDinhDoTuoi.ma).first()
-    _getAgeLimitData.min_Age = tuoibenhat
-    _getAgeLimitData.max_age = tuoilonnhat
-    db.session.commit()
-
+    try:
+        _getSiSoToiDa = db.session.query(QuyDinhSiSo).filter(QuyDinhSiSo.ma == 1).first()
+        _getSiSoToiDa.si_so = SiSoToiDa
+        _getAgeLimitData = db.session.query(QuyDinhDoTuoi).filter(QuyDinhDoTuoi.ma == 1).first()
+        _getAgeLimitData.min_age = tuoibenhat
+        _getAgeLimitData.max_age = tuoilonnhat
+        db.session.add(_getAgeLimitData)
+        db.session.commit()
+        return True
+    except SQLAlchemyError as e:
+        # Xử lý lỗi hoặc ghi log ở đây
+        db.session.rollback()  # Quay lại trạng thái trước khi commit để tránh lỗi
+        return False
 
 def get_max_number_student_in_class():
     from app.models import QuyDinhSiSo
