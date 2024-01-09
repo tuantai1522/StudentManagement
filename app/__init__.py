@@ -273,9 +273,9 @@ def get45mingradebysubject_semester(MaHS, MaHocKy):
     else:
         return _result
 
-def get_avg_bysubject_semester(MaHS, MaLop):
+def get_avg_bysubject_semester(MaHS, TenLop):
     from app.models import HocKy, Lop
-    _getMaHK = db.session.query(HocKy).join(Lop, Lop.ma_hoc_ky == HocKy.ma_hoc_ky).filter(Lop.ma_lop == MaLop).all()
+    _getMaHK = db.session.query(HocKy).join(Lop, Lop.ma_hoc_ky == HocKy.ma_hoc_ky).filter(Lop.ten_lop == TenLop).all()
     _HK1 = None
     _HK2 = None
     for semester in _getMaHK:

@@ -61,57 +61,58 @@
             </a>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            {% if current_user.is_authenticated %}
-            {# Features for GiaoVien #}
-            {% if current_user.ma_chuc_vu == 1 %}
+<!--            {% if current_user.is_authenticated %}-->
+<!--                {# Features for GiaoVien #}-->
+<!--                {% if current_user.ma_chuc_vu == 1 %}-->
 
-            <!-- Nav Item - Charts -->
+<!--                &lt;!&ndash; Nav Item - Charts &ndash;&gt;-->
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('nhap_diem') }}">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Nhập điểm</span></a>
-            </li>
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="{{ url_for('nhap_diem') }}">-->
+<!--                        <i class="fas fa-fw fa-chart-area"></i>-->
+<!--                        <span>Nhập điểm</span></a>-->
+<!--                </li>-->
 
-            {% else %}
+<!--                {% else %}-->
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="/user/tiep_nhan_hoc_sinh">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Tiếp nhận học sinh</span></a>
-            </li>
+<!--                &lt;!&ndash; Nav Item - Charts &ndash;&gt;-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="/user/tiep_nhan_hoc_sinh">-->
+<!--                        <i class="fas fa-fw fa-chart-area"></i>-->
+<!--                        <span>Tiếp nhận học sinh</span></a>-->
+<!--                </li>-->
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="/user/lap_danh_sach_lop">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Lập danh sách lớp</span></a>
-            </li>
+<!--                &lt;!&ndash; Nav Item - Charts &ndash;&gt;-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="/user/lap_danh_sach_lop">-->
+<!--                        <i class="fas fa-fw fa-chart-area"></i>-->
+<!--                        <span>Lập danh sách lớp</span></a>-->
+<!--                </li>-->
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('report_page') }}">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Báo cáo thống kê</span></a>
-            </li>
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="{{ url_for('report_page') }}">-->
+<!--                        <i class="fas fa-fw fa-chart-area"></i>-->
+<!--                        <span>Báo cáo thống kê</span></a>-->
+<!--                </li>-->
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('noiquy_page') }}">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Nội quy</span></a>
-            </li>
-            {% endif %}
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="{{ url_for('noiquy_page') }}">-->
+<!--                        <i class="fas fa-fw fa-chart-area"></i>-->
+<!--                        <span>Nội quy</span></a>-->
+<!--                </li>-->
+<!--             &lt;!&ndash; Divider &ndash;&gt;-->
+<!--                <hr class="sidebar-divider d-none d-md-block">-->
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+<!--                &lt;!&ndash; Sidebar Toggler (Sidebar) &ndash;&gt;-->
+<!--                <div class="text-center d-none d-md-inline">-->
+<!--                    <button class="rounded-circle border-0" id="sidebarToggle"></button>-->
+<!--                </div>-->
+<!--                <div class="sidebar-brand-text mx-3">Quản lý học sinh</div>-->
+<!--                </a>-->
+<!--                {% endif %}-->
 
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-            <div class="sidebar-brand-text mx-3">Quản lý học sinh</div>
-            </a>
 
+<!--            {% endif %}-->
             <!-- Nav Item - Pages Collapse Menu -->
             {% if current_user.is_authenticated %}
             {# Features for GiaoVien #}
@@ -141,12 +142,12 @@
                     <span>Xem danh sách lớp</span></a>
             </li>
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="/user/thong_ke">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Thống kê</span></a>
-            </li>
+<!--            &lt;!&ndash; Nav Item - Charts &ndash;&gt;-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="/user/thong_ke">-->
+<!--                    <i class="fas fa-fw fa-chart-area"></i>-->
+<!--                    <span>Thống kê</span></a>-->
+<!--            </li>-->
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="/user/lap_danh_sach_lop">

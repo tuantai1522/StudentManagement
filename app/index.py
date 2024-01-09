@@ -8,7 +8,7 @@ from os import path
 from app.models import TaiKhoan, Lop, NamHoc, HocKy, QuyDinhSiSo, HocSinh, Diem, QuyDinhDoTuoi, GiaoVien, MonHoc
 from sqlalchemy import delete
 
-# from app import app, login, query, db
+from app import app, login, query, db
 
 # HIỆN TRANG CHỦ CỦA DASHBOARD
 from app.query import *
@@ -270,7 +270,7 @@ def xoa_hoc_sinh_in_danh_sach_lop():
 
 
 # Features for GiaoVien
-@app.route('/user/nhap_diem')
+@app.route('/user/noiquy_page')
 @login_required
 # Hiển thị trang thay đổi nội quy
 def noiquy_page():
@@ -400,7 +400,7 @@ def grade_table(ma_lop):
         return _getGradeToArray
 
     def get_avggrade_bysemester(MaHS):
-        result = get_avg_bysubject_semester(MaHS, ma_lop)
+        result = get_avg_bysubject_semester(MaHS, classInfo.ten_lop)
         return result
 
     return render_template('grade_table.html', studentsInClass=listStudentsInClass,
